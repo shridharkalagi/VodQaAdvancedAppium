@@ -8,6 +8,7 @@ import io.appium.java_client.ios.IOSTouchAction;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -84,7 +85,7 @@ public class GestureTest extends BaseUserTest {
         MobileElement element = (MobileElement) new WebDriverWait(driver, 30).
                 until(ExpectedConditions.elementToBeClickable(MobileBy.AccessibilityId("doubleTapMe")));
         Thread.sleep(1000);
-        new IOSTouchAction(driver).doubleTap(ElementOption.element(element)).perform();
+        new IOSTouchAction(driver).doubleTap(PointOption.point(element.getCenter().getX(),element.getCenter().getY())).perform();
         Thread.sleep(5000);
     }
 
