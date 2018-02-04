@@ -19,7 +19,7 @@ import java.net.URL;
  * Created by shridhk on 12/28/17.
  */
 public class SampleTest {
-    public AppiumDriver driver;
+    public AppiumDriver driver = AppiumDriverManager.getAppiumDriverManager().getAppiumDriver();
 
     @Test
     public void basicAndroidCaps() throws InterruptedException, MalformedURLException {
@@ -120,6 +120,32 @@ public class SampleTest {
         System.out.println(text);
         Thread.sleep(10000);
     }
+
+    @Test
+    public void AndroidCapsLocators111() throws InterruptedException, MalformedURLException {
+
+//        new WebDriverWait(driver, 30).until(ExpectedConditions.
+//                elementToBeClickable(MobileBy.AccessibilityId("login")));
+
+        SampleObjects sampleObjects = new SampleObjects(AppiumDriverManager.getAppiumDriverManager().getAppiumDriver());
+        sampleObjects.clicklogin().clickChainedView();
+
+
+//        SecondPage secondPage = new SecondPage(driver);
+
+        new WebDriverWait(driver, 30).until(ExpectedConditions.
+                elementToBeClickable(MobileBy.AccessibilityId("chainedView")));
+
+//        secondPage.clickChainedView();
+
+//
+        String text = driver.findElementByAccessibilityId("container3").findElement(MobileBy.AccessibilityId("textView"))
+                .getText();
+        System.out.println(text);
+
+        Thread.sleep(10000);
+    }
+
 
     @AfterClass
     public void endSession() {
