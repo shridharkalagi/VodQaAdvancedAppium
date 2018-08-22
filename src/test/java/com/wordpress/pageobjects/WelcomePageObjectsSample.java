@@ -7,7 +7,7 @@ import io.appium.java_client.pagefactory.iOSFindBy;
 /**
  * Created by saikrisv on 12/29/16.
  */
-public class WelcomePageObjects {
+public class WelcomePageObjectsSample {
 
     @AndroidFindBy(uiAutomator = "new UiSelector().description(\"chainedView\")")
     @iOSFindBy(accessibility = "chainedView")

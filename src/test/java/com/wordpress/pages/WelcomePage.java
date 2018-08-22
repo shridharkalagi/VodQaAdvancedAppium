@@ -1,10 +1,9 @@
 package com.wordpress.pages;
 
-import com.wordpress.pageobjects.WelcomePageObjects;
+import com.wordpress.pageobjects.WelcomePageObjectsSample;
 import com.wordpress.utils.Helpers;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;
 
@@ -15,11 +14,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class WelcomePage extends Helpers {
 
-    WelcomePageObjects welcomePageObjects;
+    WelcomePageObjectsSample welcomePageObjects;
 
     public WelcomePage(AppiumDriver<MobileElement> driver) {
         super(driver);
-        welcomePageObjects = new WelcomePageObjects();
+        welcomePageObjects = new WelcomePageObjectsSample();
         PageFactory.initElements(new AppiumFieldDecorator(driver, 10,
                 TimeUnit.MILLISECONDS), welcomePageObjects);
     }
