@@ -51,7 +51,7 @@ public class BaseUserTest {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"Espresso");
         capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/VodQA.apk");
         //capabilities.setCapability(MobileCapabilityType.APP, "/Users/saikrisv/git/java_client_pr/java-client/src/test/java/io/appium/java_client/ApiDemos-debug.apk");
-        driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
 
     private void androidCapsParallel(String udid) throws IOException {
@@ -67,21 +67,21 @@ public class BaseUserTest {
 
     private  void iosCaps() throws MalformedURLException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.2");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 700000);
         capabilities.setCapability(MobileCapabilityType.APP, "https://github.com/shridharkalagi/AppiumSample/blob/master/vodqa.zip?raw=true");
-        driver = new IOSDriver<MobileElement>(service.getUrl(), capabilities);
+        driver = new IOSDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
 
 
     @BeforeMethod
     public void launchApp() throws IOException {
 //        androidCapsParallel(device);
-        androidCaps();
-       // iosCaps();
+//        androidCaps();
+        iosCaps();
         wait = new WebDriverWait(driver, 30);
     }
 

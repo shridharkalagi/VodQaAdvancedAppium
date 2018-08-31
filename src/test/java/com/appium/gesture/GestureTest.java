@@ -10,6 +10,7 @@ import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -95,8 +96,12 @@ public class GestureTest extends BaseUserTest {
         pinchAndZoom1.addAction(finger.createPointerMove(Duration.ofMillis(0),
                 PointerInput.Origin.viewport(), source.x / 2, source.y / 2));
         pinchAndZoom1.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+
+        pinchAndZoom1.addAction(new Pause(finger,Duration.ofMillis(600)));
+
         pinchAndZoom1.addAction(finger.createPointerMove(Duration.ofMillis(10000),
                 PointerInput.Origin.viewport(), source.x / 3, source.y / 3));
+
         pinchAndZoom1.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
 
@@ -104,10 +109,13 @@ public class GestureTest extends BaseUserTest {
         pinchAndZoom2.addAction(finger2.createPointerMove(Duration.ofMillis(0),
                 PointerInput.Origin.viewport(), source.x / 2, source.y / 2));
         pinchAndZoom2.addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+
+        pinchAndZoom1.addAction(new Pause(finger,Duration.ofMillis(600)));
+
         pinchAndZoom2.addAction(finger2.createPointerMove(Duration.ofMillis(10000),
                 PointerInput.Origin.viewport(), source.x * 3 / 4, source.y * 3 / 4));
         pinchAndZoom2.addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        
+
         driver.perform(Arrays.asList(pinchAndZoom1,pinchAndZoom2));
     }
 
