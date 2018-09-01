@@ -166,22 +166,35 @@ public class GestureTest extends BaseUserTest {
     @Test
     public void multiTouchTest() throws InterruptedException {
         login();
-        wait.until(ExpectedConditions.
-                elementToBeClickable(MobileBy.AccessibilityId("slider1"))).click();
+        Thread.sleep(2000);
+        wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("slider1"))).click();
         Thread.sleep(3000);
         MobileElement slider = driver.findElementByAccessibilityId("slider");
         MobileElement slider1 = driver.findElementByAccessibilityId("slider1");
 
-        Dimension sizeSlider = slider.getSize();
-        Dimension sizeSlider1 = slider1.getSize();
-        TouchAction touchAction1 =
-                new TouchAction(driver).press(ElementOption.element(slider, 0, sizeSlider.height / 2))
-                        .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
-                        .moveTo(ElementOption.element(slider, sizeSlider.width / 2, sizeSlider.height / 2));
-        TouchAction touchAction2 =
-                new TouchAction(driver).press(ElementOption.element(slider1, 0, sizeSlider1.height / 2)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
-                        .moveTo(ElementOption.element(slider1, sizeSlider1.width / 2, sizeSlider1.height / 2));
-        new MultiTouchAction(driver).add(touchAction1).add(touchAction2).perform();
-        Thread.sleep(2000);
+        Point source1 = slider.getLocation();
+        Point source2 = slider1.getLocation();
+
+        PointerInput pointerInput1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        PointerInput pointerInput2 = new PointerInput(PointerInput.Kind.TOUCH, "finger2");
+
+        Sequence swipe1 = new Sequence(pointerInput1, 0);
+        swipe1.addAction(pointerInput1.createPointerMove(Duration.ofMillis(0),
+                PointerInput.Origin.viewport(), source1.getX(),source1.getY()));
+        swipe1.addAction(pointerInput1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        swipe1.addAction(pointerInput1.createPointerMove(Duration.ofMillis(5000),
+                PointerInput.Origin.viewport(), source1.getX()+200,source1.getY()));
+        swipe1.addAction(pointerInput1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+
+        Sequence swipe2 = new Sequence(pointerInput2, 0);
+        swipe2.addAction(pointerInput2.createPointerMove(Duration.ofMillis(0),
+                PointerInput.Origin.viewport(), source2.getX(),source2.getY()));
+        swipe2.addAction(pointerInput2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        swipe2.addAction(pointerInput2.createPointerMove(Duration.ofMillis(5000),
+                PointerInput.Origin.viewport(), source2.getX()+200,source2.getY()));
+        swipe2.addAction(pointerInput2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(Arrays.asList(swipe1,swipe2));
     }
 }
