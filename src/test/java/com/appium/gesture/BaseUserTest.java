@@ -51,7 +51,7 @@ public class BaseUserTest {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"Espresso");
         capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/VodQA.apk");
         //capabilities.setCapability(MobileCapabilityType.APP, "/Users/saikrisv/git/java_client_pr/java-client/src/test/java/io/appium/java_client/ApiDemos-debug.apk");
-        driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
 
     private void androidCapsParallel(String udid) throws IOException {
