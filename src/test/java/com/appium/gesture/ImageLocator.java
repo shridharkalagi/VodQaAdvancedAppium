@@ -2,18 +2,25 @@ package com.appium.gesture;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
+
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -24,6 +31,16 @@ public class ImageLocator {
     private String APP_IOS = "https://github.com/cloudgrey-io/the-app/releases/download/v1.7.0/TheApp-v1.7.0.app.zip";
     private String APP_ANDROID = "https://github.com/cloudgrey-io/the-app/releases/download/v1.7.0/TheApp-v1.7.0.apk";
 
+    private By loginScreen = MobileBy.AccessibilityId("Login Screen");
+    private By username = MobileBy.AccessibilityId("username");
+    private By password = MobileBy.AccessibilityId("password");
+    private By loginBtn = MobileBy.AccessibilityId("loginBtn");
+    private By verificationTextEspresso = By.xpath(
+            "//com.facebook.react.views.text.ReactTextView[@text='You are logged in as alice']");
+    private By verificationTextUiAuto2 = By.xpath(
+            "//android.widget.TextView[contains(@text, 'alice')]");
+
+
     private static By photos = MobileBy.AccessibilityId("Photo Demo");
 
     @Test
@@ -32,6 +49,8 @@ public class ImageLocator {
         capabilities.setCapability("platformName", "iOS");
         capabilities.setCapability("platformVersion", "11.4");
         capabilities.setCapability("deviceName", "iPhone 8");
+        capabilities.setCapability("appPackage","io.cloudgrey.the_app");
+        capabilities.setCapability("appActivity","io.cloudgrey.the_app.MainActivity");
         capabilities.setCapability("app", APP_IOS);
 
         IOSDriver driver = new IOSDriver<>(new URL("http://localhost:4723/wd/hub"), capabilities);

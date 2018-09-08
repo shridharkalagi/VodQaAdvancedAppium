@@ -152,15 +152,19 @@ public class GestureTest extends BaseUserTest {
         MobileElement slider = driver.findElementByAccessibilityId(locator);
         Point source = slider.getCenter();
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-        Sequence dragNDrop = new Sequence(finger, 1);
-        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(0),
+        Sequence swipe = new Sequence(finger, 1);
+
+        swipe.addAction(finger.createPointerMove(Duration.ofMillis(0),
                 PointerInput.Origin.viewport(),
-                source.x / 2, source.y + 400));
-        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(600),
-                PointerInput.Origin.viewport(), source.getX() / 2, source.y / 2));
-        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
-        driver.perform(Arrays.asList(dragNDrop));
+                source.x , source.y + 400));
+
+        swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+
+        swipe.addAction(finger.createPointerMove(Duration.ofMillis(600),
+                PointerInput.Origin.viewport(), source.x, source.y / 2));
+
+        swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+        driver.perform(Arrays.asList(swipe));
     }
 
     @Test
