@@ -1,15 +1,12 @@
-package com.appium.gesture;
+package com.vodqa2018samples;
 
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.ios.IOSTouchAction;
+import com.appium.gesture.BaseUserTest;
+import io.appium.java_client.*;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,7 +16,19 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Arrays;
 
-public class GestureTest extends BaseUserTest {
+/**
+ * Created by shridhk on 9/10/18.
+ */
+public class Gestures extends BaseUserTest {
+    private AppiumDriverLocalService service;
+    public AppiumDriver<MobileElement> driver;
+    WebDriverWait wait;
+
+    private void login() {
+        wait.until(ExpectedConditions.
+                elementToBeClickable(MobileBy.AccessibilityId("login"))).click();
+    }
+
 
     @Test
     public void horizontalSwipingTest() throws Exception {
@@ -41,11 +50,6 @@ public class GestureTest extends BaseUserTest {
         driver.perform(Arrays.asList(swipe));
     }
 
-    private void login() {
-        wait.until(ExpectedConditions.
-                elementToBeClickable(MobileBy.AccessibilityId("login"))).click();
-    }
-
     @Test
     public void verticalSwipeTest() throws InterruptedException {
         login();
@@ -54,63 +58,6 @@ public class GestureTest extends BaseUserTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("listview")));
         verticalSwipe("listview");
     }
-
-    @Test
-    public void dragAndDrop() throws InterruptedException {
-        login();
-        Thread.sleep(5000);
-        driver.findElementByAccessibilityId("dragAndDrop").click();
-        MobileElement dragMe = (MobileElement) new WebDriverWait(driver, 30).until(ExpectedConditions
-                .elementToBeClickable(MobileBy.AccessibilityId("dragMe")));
-        Point source = dragMe.getCenter();
-        Point target = driver.findElementByAccessibilityId("dropzone").getCenter();
-        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-        Sequence dragNDrop = new Sequence(finger, 1);
-        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(0),
-                PointerInput.Origin.viewport(), source.x, source.y));
-        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(600),
-                PointerInput.Origin.viewport(),
-                target.x, target.y));
-        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
-        driver.perform(Arrays.asList(dragNDrop));
-    }
-
-    @Test
-    public void longPress() throws InterruptedException {
-        login();
-        Thread.sleep(5000);
-        driver.findElementByAccessibilityId("longPress").click();
-        MobileElement longpress = (MobileElement) new WebDriverWait(driver, 30).
-                until(ExpectedConditions.elementToBeClickable(MobileBy.AccessibilityId("longpress")));
-        new Actions(driver).clickAndHold(longpress).perform();
-        Thread.sleep(5000);
-    }
-
-
-    @Test //Will work only on XCUI mode as doubleTap is not supported by IOS/Android
-    public void doubleTap() throws InterruptedException {
-        login();
-        Thread.sleep(5000);
-        driver.findElementByAccessibilityId("doubleTap").click();
-        MobileElement element = (MobileElement) new WebDriverWait(driver, 30).
-                until(ExpectedConditions.elementToBeClickable(MobileBy.AccessibilityId("doubleTapMe")));
-        Thread.sleep(1000);
-        new IOSTouchAction(driver).doubleTap(ElementOption.element(element)).perform();
-
-        Point source = element.getCenter();
-        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-        Sequence dragNDrop = new Sequence(finger, 1);
-        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(1),
-                PointerInput.Origin.viewport(), source.x, source.y));
-        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
-        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
-        driver.perform(Arrays.asList(dragNDrop));
-        Thread.sleep(5000);
-    }
-
 
     private void verticalSwipe(String locator) throws InterruptedException {
         Thread.sleep(3000);
@@ -129,7 +76,7 @@ public class GestureTest extends BaseUserTest {
     }
 
     @Test
-    public void multiTouchTest() throws InterruptedException {
+    public void multiTouchSliderTest() throws InterruptedException {
         login();
         wait.until(ExpectedConditions.
                 elementToBeClickable(MobileBy.AccessibilityId("slider1"))).click();
@@ -149,4 +96,6 @@ public class GestureTest extends BaseUserTest {
         new MultiTouchAction(driver).add(touchAction1).add(touchAction2).perform();
         Thread.sleep(2000);
     }
+
+
 }

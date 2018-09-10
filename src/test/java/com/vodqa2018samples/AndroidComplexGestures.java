@@ -1,4 +1,4 @@
-package com.appium.gesture;
+package com.vodqa2018samples;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
