@@ -164,4 +164,48 @@ public class Gestures extends BaseUserTest {
 
         driver.perform(Arrays.asList(pinchAndZoom1, pinchAndZoom2));
     }
+
+    @Test
+    public void longPress() throws InterruptedException {
+        login();
+        driver.findElementByAccessibilityId("longPress").click();
+        MobileElement longpress = (MobileElement) driver.findElementByAccessibilityId("longpress");
+        Thread.sleep(2000);
+        Point source = longpress.getLocation();
+        PointerInput finger = new PointerInput(PointerInput.Kind.MOUSE, "finger");
+
+        Sequence longPress = new Sequence(finger, 0);
+        longPress.addAction(finger.createPointerMove(Duration.ofMillis(100L),
+                PointerInput.Origin.viewport(), source.x, source.y));
+        longPress.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        longPress.addAction(new Pause(finger, Duration.ofSeconds(2)));
+        longPress.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(Arrays.asList(longPress));
+
+    }
+
+    @Test
+    public void doubleTap() throws InterruptedException {
+        Thread.sleep(3000);
+        login();
+        driver.findElementByAccessibilityId("doubleTap").click();
+        MobileElement longpress = (MobileElement) driver.findElementByAccessibilityId("doubleTapMe");
+        Thread.sleep(2000);
+        Point source = longpress.getLocation();
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence doubletap = new Sequence(finger, 0);
+        doubletap.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), source.x, source.y));
+        doubletap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        doubletap.addAction(new Pause(finger, Duration.ofMillis(600)));
+        doubletap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        doubletap.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), source.x, source.y));
+        doubletap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        doubletap.addAction(new Pause(finger, Duration.ofMillis(600)));
+        doubletap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(Arrays.asList(doubletap));
+        Thread.sleep(2000);
+    }
 }
